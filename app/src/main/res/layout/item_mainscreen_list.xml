@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_mainscreen_container_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/item_mainscreen_container_cardview_margin_start"
+    android:layout_marginTop="@dimen/item_mainscreen_container_cardview_margin_top"
+    android:layout_marginEnd="@dimen/item_mainscreen_container_cardview_margin_end"
+    android:layout_marginBottom="@dimen/item_mainscreen_container_cardview_margin_bottom"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/item_mainscreen_container_cardview_corner_radius"
+    app:cardElevation="@dimen/item_mainscreen_container_elevation"
+    app:cardMaxElevation="@dimen/item_mainscreen_container_cardview_max_elevation"
+    app:contentPadding="@dimen/item_mainscreen_container_cardview_padding">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_mainscreen_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_mainscreen_message_textview"
+            android:layout_width="@dimen/_0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Some interesting message" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_mainscreen_star_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/item_mainscreen_star_imageview_margin_top"
+            android:src="@drawable/ic_baseline_star_border_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_mainscreen_message_textview"
+            app:tint="@color/yellow" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_mainscreen_rating_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/item_mainscreen_rating_textview_margin_start"
+            app:layout_constraintBottom_toBottomOf="@id/item_mainscreen_star_imageview"
+            app:layout_constraintStart_toEndOf="@id/item_mainscreen_star_imageview"
+            app:layout_constraintTop_toTopOf="@id/item_mainscreen_star_imageview"
+            tools:text="16" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_mainscreen_message_counter_imageview"
+            android:layout_width="@dimen/_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/item_mainscreen_message_counter_imageview_margin_end"
+            android:src="@drawable/ic_baseline_message_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_mainscreen_star_imageview"
+            app:tint="@color/blue" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_mainscreen_message_counter_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/item_mainscreen_message_counter_textview_margin_start"
+            app:layout_constraintBottom_toBottomOf="@id/item_mainscreen_message_counter_imageview"
+            app:layout_constraintStart_toEndOf="@id/item_mainscreen_message_counter_imageview"
+            app:layout_constraintTop_toTopOf="@id/item_mainscreen_message_counter_imageview"
+            tools:text="10000" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
