@@ -3,15 +3,15 @@ package kosmicbor.redditpaginationmagicapp.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kosmicbor.redditpaginationmagicapp.data.retrofit.RedditAPI
+import kosmicbor.redditpaginationmagicapp.data.room.RedditPostLocalDto
 import kosmicbor.redditpaginationmagicapp.domain.MainPagingSource
 import kosmicbor.redditpaginationmagicapp.domain.Mapper
-import kosmicbor.redditpaginationmagicapp.domain.RedditPost
 import kosmicbor.redditpaginationmagicapp.utils.MainMapper
 import retrofit2.HttpException
 
 class MainPagingSourceImpl(
     private val redditAPI: RedditAPI,
-) : PagingSource<String, RedditPost>(), MainPagingSource {
+) : PagingSource<String, RedditPostLocalDto>(), MainPagingSource {
 
     private val mapper: Mapper = MainMapper()
     private var currentAnchorItem: String? = null
@@ -20,13 +20,14 @@ class MainPagingSourceImpl(
         const val DEFAULT_PAGE_SIZE = 25
     }
 
-    override fun getRefreshKey(state: PagingState<String, RedditPost>): String? {
-        val anchorPosition = state.anchorPosition ?: return null
-        val anchorPage = state.closestPageToPosition(anchorPosition)
-        return anchorPage?.prevKey ?: anchorPage?.nextKey
+    override fun getRefreshKey(state: PagingState<String, RedditPostLocalDto>): String? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey ?: anchorPage?.nextKey
+        }
     }
 
-    override suspend fun load(params: LoadParams<String>): LoadResult<String, RedditPost> {
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, RedditPostLocalDto> {
         try {
             val pageAnchor = params.key
 
@@ -34,12 +35,12 @@ class MainPagingSourceImpl(
 
             return if (response.isSuccessful) {
                 val listOfPosts =
-                    mapper.convertListDtoToPostList(response.body()!!.data.childrenList)
+                    mapper.convertListDtoToLocalList(response.body()!!.data.childrenList)
                 val nextAnchorItem = response.body()!!.data.after
                 val prevAnchorItem = currentAnchorItem
                 currentAnchorItem = nextAnchorItem
 
-                LoadResult.Page(listOfPosts, prevAnchorItem, nextAnchorItem)
+                LoadResult.Page(listOfPosts, prevAnchorItem, nextAnchorItem, itemsAfter = DEFAULT_PAGE_SIZE)
             } else {
                 LoadResult.Error(HttpException(response))
             }

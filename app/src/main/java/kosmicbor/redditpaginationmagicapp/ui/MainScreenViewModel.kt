@@ -5,14 +5,17 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import kosmicbor.redditpaginationmagicapp.domain.MainScreenUseCase
 import kosmicbor.redditpaginationmagicapp.domain.RedditPost
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 
 class MainScreenViewModel(private val usecase: MainScreenUseCase) : ViewModel() {
 
     lateinit var query: StateFlow<PagingData<RedditPost>>
 
     fun getPostsList() {
-        query = usecase.getPostList().stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+        query = usecase.getPostList()
+            .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
     }
 
 }
