@@ -14,7 +14,7 @@ class MainPagingSourceImpl(
 ) : PagingSource<String, RedditPost>(), MainPagingSource {
 
     private val mapper: Mapper = MainMapper()
-    private var prevAnchorItem: String? = null
+    private var currentAnchorItem: String? = null
 
     companion object {
         const val DEFAULT_PAGE_SIZE = 25
@@ -36,6 +36,8 @@ class MainPagingSourceImpl(
                 val listOfPosts =
                     mapper.convertListDtoToPostList(response.body()!!.data.childrenList)
                 val nextAnchorItem = response.body()!!.data.after
+                val prevAnchorItem = currentAnchorItem
+                currentAnchorItem = nextAnchorItem
 
                 LoadResult.Page(listOfPosts, prevAnchorItem, nextAnchorItem)
             } else {
